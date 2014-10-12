@@ -1,6 +1,6 @@
-#ifndef EMERALD_ENGINE_H
-#define EMERALD_ENGINE_H
-#include <emerald.h>
+#ifndef ROTINI_ENGINE_H
+#define ROTINI_ENGINE_H
+#include <rotini.h>
 #include <libengine.h>
 typedef void (*init_engine_proc)(window_settings *);        // init_engine
 typedef void (*load_settings_proc)(GKeyFile * f, window_settings * ws);           // load_engine_settings

@@ -18,17 +18,17 @@
  */
 
 ///////////////////////////////////////////////////
-//emerald stuff
+//rotini stuff
 #include <engine.h>
 
 void copy_from_defaults_if_needed()
 {
-    gchar * opath = g_strdup_printf("%s/.emerald/theme",g_get_home_dir());
+    gchar * opath = g_strdup_printf("%s/.rotini/theme",g_get_home_dir());
     gchar * fcont;
     gsize len=0;
     g_mkdir_with_parents(opath,0755);
     g_free(opath);
-    opath = g_strdup_printf("%s/.emerald/settings.ini",g_get_home_dir());
+    opath = g_strdup_printf("%s/.rotini/settings.ini",g_get_home_dir());
     if (!g_file_test(opath,G_FILE_TEST_EXISTS))
     {
         if (g_file_get_contents(DEFSETTINGSFILE,&fcont,&len,NULL))
@@ -38,7 +38,7 @@ void copy_from_defaults_if_needed()
         }
     }
     g_free(opath);
-    opath = g_strdup_printf("%s/.emerald/theme/theme.ini",g_get_home_dir());
+    opath = g_strdup_printf("%s/.rotini/theme/theme.ini",g_get_home_dir());
     if (!g_file_test(opath,G_FILE_TEST_EXISTS))
     {
         GDir * d;
@@ -49,7 +49,7 @@ void copy_from_defaults_if_needed()
             while(n=g_dir_read_name(d))
             {
                 gchar * ipath = g_strdup_printf("%s/%s",DEFTHEMEDIR,n);
-                gchar * npath = g_strdup_printf("%s/.emerald/theme/%s",g_get_home_dir(),n);
+                gchar * npath = g_strdup_printf("%s/.rotini/theme/%s",g_get_home_dir(),n);
                 if (g_file_get_contents(ipath,&fcont,&len,NULL))
                 {
                     g_file_set_contents(npath,fcont,len,NULL);
@@ -66,7 +66,7 @@ void copy_from_defaults_if_needed()
 
 gchar * make_filename(gchar * sect, gchar * key, gchar * ext)
 {
-    return g_strdup_printf("%s/.emerald/theme/%s.%s.%s",g_get_home_dir(),sect,key,ext);
+    return g_strdup_printf("%s/.rotini/theme/%s.%s.%s",g_get_home_dir(),sect,key,ext);
 }
 void cairo_set_source_alpha_color(cairo_t * cr, alpha_color * c)
 {

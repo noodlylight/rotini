@@ -1,3 +1,3 @@
 ## Process this file with automake to produce Makefile.in
-emeraldinclude_HEADERS = emerald.h engine.h libengine.h titlebar.h
-emeraldincludedir = $(includedir)/emerald
+rotiniinclude_HEADERS = rotini.h engine.h libengine.h titlebar.h
+rotiniincludedir = $(includedir)/rotini

@@ -4,7 +4,7 @@
 #define NEED_BUTTON_FILE_NAMES
 #define NEED_BUTTON_NAMES
 #define NEED_TITLEBAR_ACTION_NAMES
-#include <emerald.h>
+#include <rotini.h>
 #include <engine.h>
 
 #define LAST_COMPAT_VER "0.1.0"
@@ -74,7 +74,7 @@ static void theme_list_append(gchar * value,gchar * dir, gchar * fil)
         ostr1 = g_strdup_printf(strverscmp(val2,elc)>=0?
                 "Engine: YES (%s)\n":"Engine: NO (%s)\n",val2);
         ostr2 = g_strdup_printf(strverscmp(tver,LAST_COMPAT_VER)>=0?
-                "Emerald: YES (%s)":"Emerald: NO (%s)",tver);
+                "Rotini: YES (%s)":"Rotini: NO (%s)",tver);
         ostr = g_strdup_printf("%s%s",ostr1,ostr2);
         g_free(ostr1);
         g_free(ostr2);
@@ -89,7 +89,7 @@ static void theme_list_append(gchar * value,gchar * dir, gchar * fil)
         if (!val)
             val=g_strdup("0.0.0");
         val2 = g_strdup_printf(strverscmp(val,LAST_COMPAT_VER)>=0?
-                "No Engine\nEmerald: YES (%s)":"No Engine\nEmerald: NO (%s)",val?val:"NONE");
+                "No Engine\nRotini: YES (%s)":"No Engine\nRotini: NO (%s)",val?val:"NONE");
         gtk_list_store_set(ThemeList,&iter,1,val2,-1);
         g_free(val2);
     }
@@ -232,8 +232,8 @@ static void refresh_theme_list(gchar * thn)
 {
     gchar * path;
     gtk_list_store_clear(ThemeList);
-    theme_scan_dir(DATA_DIR "/emerald/themes/",FALSE); 
-    path = g_strdup_printf("%s/.emerald/themes/",g_get_home_dir());
+    theme_scan_dir(DATA_DIR "/rotini/themes/",FALSE); 
+    path = g_strdup_printf("%s/.rotini/themes/",g_get_home_dir());
     theme_scan_dir(path,TRUE);
     g_free(path);
     if (thn)
@@ -319,7 +319,7 @@ static void cb_load(GtkWidget *w, gpointer d)
         return;
     }
     gtk_widget_set_sensitive(DeleteButton,!dist);
-    xt = g_strdup_printf("%s/.emerald/theme/",g_get_home_dir());
+    xt = g_strdup_printf("%s/.rotini/theme/",g_get_home_dir());
     dr = g_dir_open(xt,0,NULL);
     while (dr && (gt = (gchar *)g_dir_read_name(dr)))
     {
@@ -332,13 +332,13 @@ static void cb_load(GtkWidget *w, gpointer d)
         g_dir_close(dr);
     if (dist)
     {
-        fn = g_strdup_printf(DATA_DIR "/emerald/themes/%s/theme.ini",mt);
-        at = g_strdup_printf(DATA_DIR "/emerald/themes/%s/",mt);
+        fn = g_strdup_printf(DATA_DIR "/rotini/themes/%s/theme.ini",mt);
+        at = g_strdup_printf(DATA_DIR "/rotini/themes/%s/",mt);
     }
     else
     {
-        fn = g_strdup_printf("%s/.emerald/themes/%s/theme.ini",g_get_home_dir(),mt);
-        at = g_strdup_printf("%s/.emerald/themes/%s/",g_get_home_dir(),mt);
+        fn = g_strdup_printf("%s/.rotini/themes/%s/theme.ini",g_get_home_dir(),mt);
+        at = g_strdup_printf("%s/.rotini/themes/%s/",g_get_home_dir(),mt);
     }
     dr = g_dir_open(at,0,NULL);
     while (dr && (gt = (gchar *)g_dir_read_name(dr)))
@@ -393,13 +393,17 @@ static gchar * import_theme(gchar * file)
     gint ex;
     ot = g_strdup(file);
     pot=ot;
-    if (!g_str_has_suffix(ot,".emerald"))
+    if (!g_str_has_suffix(ot,".emerald") && !g_str_has_suffix(ot,".rotini"))
     {
         g_free(pot);
-        error_dialog(_("Invalid theme file.  Does not end in .emerald"));
+        error_dialog(_("Invalid theme file.  Does not end in .emerald or .rotini"));
         return NULL;
     }
-    ot[strlen(ot)-strlen(".emerald")]='\0';
+    if (g_str_has_suffix(ot,".emerald"))
+        ot[strlen(ot)-strlen(".emerald")]='\0';
+    else if (g_str_has_suffix(ot,".rotini"))
+        ot[strlen(ot)-strlen(".rotini")]='\0';
+
     ot = g_strrstr(ot,"/");
     if (!ot)
     {
@@ -408,7 +412,7 @@ static gchar * import_theme(gchar * file)
     else
         ot++;
     rstr=g_strdup(ot);
-    fn = g_strdup_printf("%s/.emerald/themes/%s/",g_get_home_dir(),ot);
+    fn = g_strdup_printf("%s/.rotini/themes/%s/",g_get_home_dir(),ot);
     g_free(pot);
     g_mkdir_with_parents(fn,00755);
     at = g_shell_quote(fn);
@@ -442,12 +446,12 @@ static void export_theme(gchar * file)
         //these conditions should already have been handled but another check is ok
         return;
     }
-    if (!g_str_has_suffix(file,".emerald"))
+    if (!g_str_has_suffix(file,".emerald") && !g_str_has_suffix(file,".rotini"))
     {
-        error_dialog(_("Invalid File Name\nMust End in .emerald"));
+        error_dialog(_("Invalid File Name\nMust End in .emerald or .rotini"));
         return;
     }
-    fn = g_strdup_printf("%s/.emerald/theme/",g_get_home_dir());
+    fn = g_strdup_printf("%s/.rotini/theme/",g_get_home_dir());
     at = g_shell_quote(fn);
     g_free(fn);
     fn = g_shell_quote(file);
@@ -484,10 +488,10 @@ static void cb_save(GtkWidget *w, gpointer d)
         error_dialog(_("Invalid Theme Name"));
         return;
     }
-    fn = g_strdup_printf("%s/.emerald/themes/%s",g_get_home_dir(),at);
+    fn = g_strdup_printf("%s/.rotini/themes/%s",g_get_home_dir(),at);
     g_mkdir_with_parents(fn,00755);
     g_free(fn);
-    fn = g_strdup_printf("%s/.emerald/themes/%s/theme.ini",g_get_home_dir(),at);
+    fn = g_strdup_printf("%s/.rotini/themes/%s/theme.ini",g_get_home_dir(),at);
     f = g_key_file_new();
     g_key_file_load_from_file(f,fn,0,NULL);
     g_slist_foreach(get_setting_list(),(GFunc) write_setting,f);
@@ -501,9 +505,9 @@ static void cb_save(GtkWidget *w, gpointer d)
     }
     mt = at;
     at = g_key_file_to_data(f,NULL,NULL);
-    //little fix since we're now copying from ~/.emerald/theme/*
+    //little fix since we're now copying from ~/.rotini/theme/*
     g_free(fn);
-    fn = g_strdup_printf("%s/.emerald/theme/theme.ini",g_get_home_dir());
+    fn = g_strdup_printf("%s/.rotini/theme/theme.ini",g_get_home_dir());
     if (at && !g_file_set_contents(fn,at,-1,NULL))
     {
         error_dialog(_("Couldn't Write Theme"));
@@ -516,7 +520,7 @@ static void cb_save(GtkWidget *w, gpointer d)
     else
     {
         gchar * xt;
-        xt = g_strdup_printf("%s/.emerald/themes/%s/",g_get_home_dir(),mt);
+        xt = g_strdup_printf("%s/.rotini/themes/%s/",g_get_home_dir(),mt);
         dr = g_dir_open(xt,0,NULL);
         while (dr && (gt = (gchar *)g_dir_read_name(dr)))
         {
@@ -527,7 +531,7 @@ static void cb_save(GtkWidget *w, gpointer d)
         }
         if (dr)
             g_dir_close(dr);
-        at = g_strdup_printf("%s/.emerald/theme/",g_get_home_dir());
+        at = g_strdup_printf("%s/.rotini/theme/",g_get_home_dir());
         dr = g_dir_open(at,0,NULL);
         while (dr && (gt = (gchar *)g_dir_read_name(dr)))
         {
@@ -580,7 +584,7 @@ static void cb_delete(GtkWidget *w, gpointer d)
         error_dialog(_("Invalid Theme Name"));
         return;
     }
-    fn = g_strdup_printf("%s/.emerald/themes/%s/theme.ini",g_get_home_dir(),at);
+    fn = g_strdup_printf("%s/.rotini/themes/%s/theme.ini",g_get_home_dir(),at);
     if (g_file_test(fn,G_FILE_TEST_EXISTS))
     {
         if (!confirm_dialog(_("Are you sure you want to delete %s?"),at))
@@ -593,7 +597,7 @@ static void cb_delete(GtkWidget *w, gpointer d)
         {
             GDir * dir;
             gchar * ot, * mt, * pt;
-            pt = g_strdup_printf("%s/.emerald/themes/%s/",g_get_home_dir(),at);
+            pt = g_strdup_printf("%s/.rotini/themes/%s/",g_get_home_dir(),at);
             dir = g_dir_open(pt,0,NULL);
             while (dir && (ot = (gchar *)g_dir_read_name(dir)))
             {
@@ -839,7 +843,7 @@ static void cb_export(GtkWidget * w, gpointer p)
     gchar * pth = g_strdup_printf("%s/Desktop/",g_get_home_dir());
     GtkFileFilter * filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter,"Theme Packages");
-    gtk_file_filter_add_pattern(filter,"*.emerald");
+    gtk_file_filter_add_pattern(filter,"*.emerald;*.rotini");
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),filter);
     gtk_file_chooser_set_do_overwrite_confirmation (
             GTK_FILE_CHOOSER (dialog), TRUE);
@@ -1057,7 +1061,7 @@ void layout_settings_pane(GtkWidget * vbox)
     gtk_box_pack_startC(vbox,gtk_label_new(
                 _("NOTE - These settings are not part of themes, "
                 "they are stored separately, and control various UI "
-                "preferences for Emerald.")
+                "preferences for Rotini.")
                 ),FALSE,FALSE,0);
     gtk_box_pack_startC(vbox,gtk_hseparator_new(),FALSE,FALSE,0);
 
@@ -1124,7 +1128,7 @@ void layout_settings_pane(GtkWidget * vbox)
     register_setting(combo,ST_SFILE_INT_COMBO,"buttons",
             "hover_cursor");
 
-    table_append(gtk_label_new(_("Compiz Decoration Blur Type")),FALSE);
+    table_append(gtk_label_new(_("Fusilli Decoration Blur Type")),FALSE);
     combo = gtk_combo_box_new_text();
     gtk_combo_box_append_text(GTK_COMBO_BOX(combo),_("None"));
     gtk_combo_box_append_text(GTK_COMBO_BOX(combo),_("Titlebar only"));
@@ -1511,7 +1515,7 @@ void layout_repo_pane(GtkWidget * vbox)
 	GtkWidget * hbox;
 	GtkWidget * rlabel;
 	gtk_box_pack_startC(vbox,gtk_label_new(
-		_("Here are the repositories that you can fetch Emerald Themes from. \n"
+		_("Here are the repositories that you can fetch Rotini Themes from. \n"
 	"Fetching themes would fetch and import themes from SVN repositories \n"
 	"You need Subversion package installed to use this feature."
 	)),FALSE,FALSE,0);
@@ -1576,7 +1580,7 @@ GtkWidget* create_filechooserdialog1 (char *input)
     gchar * pth = g_strdup_printf("%s",input);
     GtkFileFilter * filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter,"Theme Packages");
-    gtk_file_filter_add_pattern(filter,"*.emerald");
+    gtk_file_filter_add_pattern(filter,"*.emerald;*.rotini");
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog_startup),filter);
     gtk_file_chooser_set_filename (GTK_FILE_CHOOSER(dialog_startup),
             pth);
@@ -1607,7 +1611,7 @@ void layout_main_window()
     gtk_box_pack_startC(vbox,notebook,TRUE,TRUE,0);
 
     layout_themes_pane(build_notebook_page(_("Themes Settings"),notebook));
-    layout_settings_pane(build_notebook_page(_("Emerald Settings"),notebook));
+    layout_settings_pane(build_notebook_page(_("Rotini Settings"),notebook));
 
     hbox = gtk_hbox_new(FALSE,2);
     gtk_box_pack_startC(vbox,hbox,FALSE,FALSE,0);
@@ -1650,8 +1654,8 @@ int main (int argc, char * argv[])
     dbus_g_thread_init();
 #endif
 
-    g_mkdir_with_parents(g_strdup_printf("%s/.emerald/theme/",g_get_home_dir()),00755);
-    g_mkdir_with_parents(g_strdup_printf("%s/.emerald/themes/",g_get_home_dir()),00755);
+    g_mkdir_with_parents(g_strdup_printf("%s/.rotini/theme/",g_get_home_dir()),00755);
+    g_mkdir_with_parents(g_strdup_printf("%s/.rotini/themes/",g_get_home_dir()),00755);
 
     init_key_files();
     
@@ -1667,14 +1671,14 @@ int main (int argc, char * argv[])
     setup_dbus();
 #endif
 
-    gtk_window_set_title (GTK_WINDOW (mainWindow), "Emerald Themer " VERSION);
+    gtk_window_set_title (GTK_WINDOW (mainWindow), "Rotini Themer " VERSION);
 
     gtk_window_set_resizable (GTK_WINDOW (mainWindow), TRUE);
     gtk_window_set_default_size (GTK_WINDOW(mainWindow), 700, 500);
 
     g_signal_connect(G_OBJECT (mainWindow), "destroy", G_CALLBACK(cb_main_destroy), NULL);
     
-    gtk_window_set_default_icon_from_file (PIXMAPS_DIR "/emerald-theme-manager-icon.png", NULL);
+    gtk_window_set_default_icon_from_file (PIXMAPS_DIR "/rotini-theme-manager-icon.png", NULL);
 
     gtk_container_set_border_widthC (GTK_CONTAINER (mainWindow), 5);
 

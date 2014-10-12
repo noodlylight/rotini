@@ -22,7 +22,7 @@
  */
 
 //vrunner engine
-#include <emerald.h>
+#include <rotini.h>
 #include <engine.h>
 #include <vrunner_icon.h>
 

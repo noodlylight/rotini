@@ -1,11 +1,11 @@
 ## Process this file with automake to produce Makefile.in
-INCLUDES = @EMERALD_CFLAGS@ -I$(top_srcdir)/include\
+INCLUDES = @ROTINI_CFLAGS@ -I$(top_srcdir)/include\
 		   -DENGINE_DIR=\"$(enginesdir)\" \
-		   -DDEFTHEMEDIR='"@datadir@/emerald/theme/"' \
-		   -DDEFSETTINGSFILE='"@datadir@/emerald/settings.ini"'
-libemeraldengine_la_LIBADD = @EMERALD_LIBS@
-libemeraldengine_la_SOURCES = emerald.c themer.c
-lib_LTLIBRARIES = libemeraldengine.la
+		   -DDEFTHEMEDIR='"@datadir@/rotini/theme/"' \
+		   -DDEFSETTINGSFILE='"@datadir@/rotini/settings.ini"'
+librotiniengine_la_LIBADD = @ROTINI_LIBS@
+librotiniengine_la_SOURCES = rotini.c themer.c
+lib_LTLIBRARIES = librotiniengine.la
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = emeraldengine.pc
+pkgconfig_DATA = rotiniengine.pc

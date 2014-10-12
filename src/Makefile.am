@@ -1,11 +1,11 @@
 ## Process this file with automake to produce Makefile.in
-emerald_LDADD   = @EMERALD_LIBS@ $(top_builddir)/libengine/libemeraldengine.la
-emerald_SOURCES = main.c \
+rotini_LDADD   = @ROTINI_LIBS@ $(top_builddir)/libengine/librotiniengine.la
+rotini_SOURCES = main.c \
 			   engine_loader.c
-emerald_program = emerald
+rotini_program = rotini
 
-INCLUDES = @EMERALD_CFLAGS@ -I$(top_srcdir)/include \
+INCLUDES = @ROTINI_CFLAGS@ -I$(top_srcdir)/include \
 		   -DLOCALEDIR="\"@datadir@/locale"\"\
 		   -DENGINE_DIR=\"$(enginesdir)\"
 
-bin_PROGRAMS = $(emerald_program)
+bin_PROGRAMS = $(rotini_program)

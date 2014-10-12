@@ -31,7 +31,7 @@ cscope.*
 po/Makefile.in.in
 po/POTFILES
 po/stamp-it
-src/emerald
-themer/emerald-theme-manager
+src/rotini
+themer/rotini-theme-manager
 
 

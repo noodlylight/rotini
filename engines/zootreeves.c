@@ -24,7 +24,7 @@
 
 //zootreeves engine
 
-#include <emerald.h>
+#include <rotini.h>
 #include <engine.h>
 #include <zootreeves_icon.h>
 

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Rotini Theme Manager
+Name[fr]=Gestionnaire de thèmes Rotini
+Comment=Configure Rotini themes
+Comment[fr]=Configurerer les options des thèmes Rotini
+Icon=/usr/share/pixmaps/rotini-theme-manager-icon.png
+Terminal=false
+Type=Application
+Categories=Settings;DesktopSettings;
+Exec=rotini-theme-manager -i %f
+MimeType=application/x-emerald-theme;
+

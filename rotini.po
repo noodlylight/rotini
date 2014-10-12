@@ -1,6 +1,6 @@
-# Emerald Window Decorator.
+# Rotini Window Decorator.
 # Copyright (C) 2006
-# This file is distributed under the same license as the Emerald package.
+# This file is distributed under the same license as the Rotini package.
 # cyberorg <cyberorg@cyberorg.info>, 2006.
 #
 msgid ""

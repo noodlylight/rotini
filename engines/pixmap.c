@@ -22,7 +22,7 @@
  */
 
 //pixmap engine
-#include <emerald.h>
+#include <rotini.h>
 #include <engine.h>
 #include <pixmap_icon.h>
 

@@ -18,10 +18,10 @@
  */
 
 //engine loader
-#include <emerald.h>
+#include <rotini.h>
 #include <engine.h>
 
-#define LOCAL_ENGINE_DIR g_get_home_dir(),".emerald/engines"
+#define LOCAL_ENGINE_DIR g_get_home_dir(),".rotini/engines"
 
 static void * engine = NULL;
 init_engine_proc e_init = NULL;

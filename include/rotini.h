@@ -1,5 +1,5 @@
-#ifndef EMERALD_H
-#define EMERALD_H
+#ifndef ROTINI_H
+#define ROTINI_H
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif

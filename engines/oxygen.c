@@ -22,7 +22,7 @@
  */
 
 //legacy engine
-#include <emerald.h>
+#include <rotini.h>
 #include <engine.h>
 #include <oxygen_icon.h>
 

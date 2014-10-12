@@ -26,7 +26,7 @@
 #define NEED_BUTTON_STATE_FLAGS
 #define NEED_BUTTON_ACTIONS
 #define NEED_BUTTON_FILE_NAMES
-#include <emerald.h>
+#include <rotini.h>
 #include <engine.h>
 
 //#define BASE_PROP_SIZE 12
@@ -91,7 +91,7 @@ static Atom toolkit_action_atom;
 static Atom toolkit_action_window_menu_atom;
 static Atom toolkit_action_force_quit_dialog_atom;
 
-static Atom emerald_sigusr1_atom;
+static Atom rotini_sigusr1_atom;
 
 static Atom utf8_string_atom;
 
@@ -4549,7 +4549,7 @@ event_filter_func(GdkXEvent * gdkxevent, GdkEvent * event, gpointer data)
 		    }
 		}
 	    }
-	    else if (xevent->xclient.message_type == emerald_sigusr1_atom)
+	    else if (xevent->xclient.message_type == rotini_sigusr1_atom)
 	    {
 		reload_all_settings(SIGUSR1);
 	    }
@@ -5210,7 +5210,7 @@ void load_button_image_setting(window_settings * ws)
 static void load_settings(window_settings * ws)
 {
     gchar *path =
-	g_strjoin("/", g_get_home_dir(), ".emerald/settings.ini", NULL);
+	g_strjoin("/", g_get_home_dir(), ".rotini/settings.ini", NULL);
     GKeyFile *f = g_key_file_new();
 
     copy_from_defaults_if_needed();
@@ -5272,7 +5272,7 @@ static void load_settings(window_settings * ws)
 		     "blur_type", "decorations");
 
     //theme
-    path = g_strjoin("/", g_get_home_dir(), ".emerald/theme/theme.ini", NULL);
+    path = g_strjoin("/", g_get_home_dir(), ".rotini/theme/theme.ini", NULL);
     g_key_file_load_from_file(f, path, 0, NULL);
     g_free(path);
     load_string_setting(f, &engine, "engine", "engine");
@@ -5357,7 +5357,7 @@ dbus_signal_filter(DBusConnection * connection, DBusMessage * message,
 		   void *user_data)
 {
     if (dbus_message_is_signal
-	(message, "org.metascape.emerald.dbus.Signal", "Reload"))
+	(message, "org.metascape.rotini.dbus.Signal", "Reload"))
     {
 	puts("Reloading...");
 	update_settings(global_ws);
@@ -5370,7 +5370,7 @@ void dbc(DBusError * err)
 {
     if (dbus_error_is_set(err))
     {
-	fprintf(stderr, "emerald: Connection Error (%s)\n", err->message);
+	fprintf(stderr, "rotini: Connection Error (%s)\n", err->message);
 	dbus_error_free(err);
     }
 }
@@ -5503,12 +5503,12 @@ int main(int argc, char *argv[])
 	dbc(&err);
 	dbus_connection_setup_with_g_main(dbcon, NULL);
 	dbc(&err);
-	dbus_bus_request_name(dbcon, "org.metascape.emerald.dbus",
+	dbus_bus_request_name(dbcon, "org.metascape.rotini.dbus",
 			      DBUS_NAME_FLAG_REPLACE_EXISTING |
 			      DBUS_NAME_FLAG_ALLOW_REPLACEMENT, &err);
 	dbc(&err);
 	dbus_bus_add_match(dbcon,
-			   "type='signal',interface='org.metascape.emerald.dbus.Signal'",
+			   "type='signal',interface='org.metascape.rotini.dbus.Signal'",
 			   &err);
 	dbc(&err);
 	dbus_connection_add_filter(dbcon, dbus_signal_filter, NULL, NULL);
@@ -5536,20 +5536,20 @@ int main(int argc, char *argv[])
 	XInternAtom(xdisplay, "_NET_WM_CONTEXT_HELP", FALSE);
 
     toolkit_action_atom =
-	XInternAtom(xdisplay, "_COMPIZ_TOOLKIT_ACTION", FALSE);
+	XInternAtom(xdisplay, "_FUSILLI_TOOLKIT_ACTION", FALSE);
     toolkit_action_window_menu_atom =
-	XInternAtom(xdisplay, "_COMPIZ_TOOLKIT_ACTION_WINDOW_MENU",
+	XInternAtom(xdisplay, "_FUSILLI_TOOLKIT_ACTION_WINDOW_MENU",
 		    FALSE);
     toolkit_action_force_quit_dialog_atom =
-	XInternAtom(xdisplay, "_COMPIZ_TOOLKIT_ACTION_FORCE_QUIT_DIALOG",
+	XInternAtom(xdisplay, "_FUSILLI_TOOLKIT_ACTION_FORCE_QUIT_DIALOG",
 		    FALSE);
 
-    emerald_sigusr1_atom = XInternAtom(xdisplay, "emerald-sigusr1", FALSE);
+    rotini_sigusr1_atom = XInternAtom(xdisplay, "rotini-sigusr1", FALSE);
 
     utf8_string_atom = XInternAtom(xdisplay, "UTF8_STRING", FALSE);
 
     status = decor_acquire_dm_session (xdisplay, DefaultScreen(xdisplay),
-				       "emerald", replace, &dm_sn_timestamp);
+				       "rotini", replace, &dm_sn_timestamp);
 
     if (status != DECOR_ACQUIRE_STATUS_SUCCESS)
     {

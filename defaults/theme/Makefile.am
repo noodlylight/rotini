@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-defthemedir = $(datadir)/emerald/theme
+defthemedir = $(datadir)/rotini/theme
 deftheme_DATA = \
     theme.ini \
     theme.screenshot.png \

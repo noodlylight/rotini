@@ -258,7 +258,7 @@ void send_reload_signal()
 {
 #ifdef USE_DBUS
     DBusMessage *message;
-    message = dbus_message_new_signal("/","org.metascape.emerald.dbus.Signal","Reload");
+    message = dbus_message_new_signal("/","org.metascape.rotini.dbus.Signal","Reload");
     dbus_connection_send(dbcon,message,NULL);
     dbus_message_unref(message);
 #else
@@ -268,7 +268,7 @@ void send_reload_signal()
     char buffer[128];
     char *part = display_part(getenv("DISPLAY"));
 
-    sprintf(buffer, "_COMPIZ_DM_S%s", part);
+    sprintf(buffer, "_FUSILLI_DM_S%s", part);
     free(part);
 
     if (dpy)
@@ -278,7 +278,7 @@ void send_reload_signal()
         XEvent clientEvent;
 	Status missed;
         Window w = XGetSelectionOwner(dpy,wmAtom);
-	Atom ReloadIt = XInternAtom(dpy, "emerald-sigusr1", 0);
+	Atom ReloadIt = XInternAtom(dpy, "rotini-sigusr1", 0);
 	clientEvent.xclient.type = ClientMessage;
 	clientEvent.xclient.window = w;
 	clientEvent.xclient.message_type = ReloadIt;
@@ -297,18 +297,18 @@ void send_reload_signal()
     } else {
         /* The old way */
         gchar * args[]=
-	    {"killall","-u",(gchar *)g_get_user_name(),"-SIGUSR1","emerald",NULL};
+	    {"killall","-u",(gchar *)g_get_user_name(),"-SIGUSR1","rotini",NULL};
 	gchar * ret=NULL;
 	if (!g_spawn_sync(NULL,args,NULL,G_SPAWN_STDERR_TO_DEV_NULL | G_SPAWN_SEARCH_PATH,
 			  NULL,NULL,&ret,NULL,NULL,NULL) || !ret)
-	    g_warning("Couldn't find running emerald, no reload signal sent.");
+	    g_warning("Couldn't find running rotini, no reload signal sent.");
     }
 #endif
 }
 void apply_settings()
 {
-    gchar * file = g_strjoin("/",g_get_home_dir(),".emerald/theme/theme.ini",NULL);
-    gchar * path = g_strjoin("/",g_get_home_dir(),".emerald/theme/",NULL);
+    gchar * file = g_strjoin("/",g_get_home_dir(),".rotini/theme/theme.ini",NULL);
+    gchar * path = g_strjoin("/",g_get_home_dir(),".rotini/theme/",NULL);
     gchar * at;
     g_slist_foreach(SettingList,(GFunc) write_setting,global_theme_file);
     g_key_file_set_string(global_theme_file,"theme","version",VERSION);
@@ -384,7 +384,7 @@ void write_setting(SettingItem * item, gpointer p)
         case ST_IMG_FILE:
             //g_key_file_set_string(f,item->section,item->key,get_img_file(item));
             {
-                gchar * s = g_strdup_printf("%s/.emerald/theme/%s.%s.png",g_get_home_dir(),item->section,item->key);
+                gchar * s = g_strdup_printf("%s/.rotini/theme/%s.%s.png",g_get_home_dir(),item->section,item->key);
                 GdkPixbuf * pbuf = gtk_image_get_pixbuf(item->image);
                 if (pbuf)
                 {
@@ -438,8 +438,8 @@ void write_setting(SettingItem * item, gpointer p)
 }
 void write_setting_file()
 {
-    gchar * file = g_strjoin("/",g_get_home_dir(),".emerald/settings.ini",NULL);
-    gchar * path = g_strjoin("/",g_get_home_dir(),".emerald/",NULL);
+    gchar * file = g_strjoin("/",g_get_home_dir(),".rotini/settings.ini",NULL);
+    gchar * path = g_strjoin("/",g_get_home_dir(),".rotini/",NULL);
     gchar * at;
     g_mkdir_with_parents(path,00755);
     at = g_key_file_to_data(global_settings_file,NULL,NULL);
@@ -750,7 +750,7 @@ void read_setting(SettingItem * item, gpointer * p)
                 set_img_file(item,s);
                 g_free(s);
             }*/
-            s = g_strdup_printf("%s/.emerald/theme/%s.%s.png",g_get_home_dir(),item->section,item->key);
+            s = g_strdup_printf("%s/.rotini/theme/%s.%s.png",g_get_home_dir(),item->section,item->key);
             set_img_file(item,s);
             g_free(s);
             break;
@@ -796,10 +796,10 @@ void read_setting(SettingItem * item, gpointer * p)
 }
 void init_settings()
 {
-    gchar * file = g_strjoin("/",g_get_home_dir(),".emerald/theme/theme.ini",NULL);
+    gchar * file = g_strjoin("/",g_get_home_dir(),".rotini/theme/theme.ini",NULL);
     g_key_file_load_from_file(global_theme_file,file,G_KEY_FILE_KEEP_COMMENTS,NULL);
     g_free(file);
-    file = g_strjoin("/",g_get_home_dir(),".emerald/settings.ini",NULL);
+    file = g_strjoin("/",g_get_home_dir(),".rotini/settings.ini",NULL);
     g_key_file_load_from_file(global_settings_file,file,G_KEY_FILE_KEEP_COMMENTS,NULL);
     g_free(file);
     g_slist_foreach(SettingList,(GFunc) read_setting,global_theme_file);
@@ -954,7 +954,7 @@ void init_engine_list()
     
     EngineModel = gtk_list_store_new(ENGINE_COL_COUNT,G_TYPE_STRING,
             G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,GDK_TYPE_PIXBUF);
-    gchar * local_engine_dir = g_strjoin("/",g_get_home_dir(),".emerald/engines",NULL);
+    gchar * local_engine_dir = g_strjoin("/",g_get_home_dir(),".rotini/engines",NULL);
     gtk_combo_box_set_model(GTK_COMBO_BOX(EngineCombo),GTK_TREE_MODEL(EngineModel));
     r = gtk_cell_renderer_pixbuf_new();
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(EngineCombo),r,FALSE);

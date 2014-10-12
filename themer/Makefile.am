@@ -1,10 +1,10 @@
 ## Process this file with automake to produce Makefile.in
-emerald_theme_manager_SOURCES = main.c
-emerald_theme_manager_LDADD = $(EMERALD_LIBS) ../libengine/libemeraldengine.la
+rotini_theme_manager_SOURCES = main.c
+rotini_theme_manager_LDADD = $(ROTINI_LIBS) ../libengine/librotiniengine.la
 
-bin_PROGRAMS = emerald-theme-manager
+bin_PROGRAMS = rotini-theme-manager
 
-INCLUDES = @EMERALD_CFLAGS@ \
+INCLUDES = @ROTINI_CFLAGS@ \
 		   -DPIXMAPS_DIR=\""$(datadir)/pixmaps"\"\
 		   -DDATA_DIR=\""$(datadir)"\"\
 		   -DLOCALEDIR="\"@datadir@/locale"\"\

@@ -22,7 +22,7 @@
  *
  */
 
-#include <emerald.h>
+#include <rotini.h>
 #include <engine.h>
 
 #include <legacy_icon.h>

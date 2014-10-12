@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 desktopdir = $(datadir)/applications/
-desktop_DATA = emerald-theme-manager.desktop
+desktop_DATA = rotini-theme-manager.desktop
 
 mimeicondir = $(datadir)/icons/hicolor/48x48/mimetypes
 mimeicon_DATA = application-x-emerald-theme.png
