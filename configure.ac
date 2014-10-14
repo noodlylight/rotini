@@ -24,11 +24,11 @@ AC_SUBST(enginesdir)
 
 AC_C_BIGENDIAN
 
-ROTINI_REQUIRES=" xrender >= 0.8.4  \
-		    gtk+-2.0 >= 2.8.0            \
-		    libwnck-1.0                  \
-		    libfusillidecoration         \
-		    pangocairo"
+ROTINI_REQUIRES=" xrender >= 0.8.4             \
+                  gtk+-2.0 >= 2.8.0            \
+                  libwnck-1.0                  \
+                  libfusillidecoration         \
+                  pangocairo"
 
 dnl ============================================================
 dnl Check for the pkg-config path.
@@ -56,10 +56,10 @@ LIBS="$LIBS $ROTINI_LIBS -lm -ldl"
 AC_CHECK_FUNCS(wnck_window_has_name)
 
 PKG_CHECK_EXISTS(libwnck-1.0 >= 2.19.4,
-		     [have_libwnck_2_19_4=yes], [have_libwnck_2_19_4=no])
+                 [have_libwnck_2_19_4=yes], [have_libwnck_2_19_4=no])
 if test "$have_libwnck_2_19_4" = yes; then
     AC_DEFINE(HAVE_LIBWNCK_2_19_4, 1,
-	      [Define to 1 if libwnck version >= 2_19_4])
+              [Define to 1 if libwnck version >= 2_19_4])
 fi
 
 AC_ARG_ENABLE(mime-update,

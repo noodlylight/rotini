@@ -1,6 +1,4 @@
-## Process this file with automake to produce Makefile.in
-#intentionally blank
-INCLUDES = -I$(top_srcdir)/include @ROTINI_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir)/include @ROTINI_CFLAGS@
 
 ENGINELIBS = ../libengine/librotiniengine.la
 
@@ -35,10 +33,10 @@ libpixmap_la_SOURCES = pixmap.c pixmap_icon.h
 enginedir = $(enginesdir)
 
 engine_LTLIBRARIES = \
-					 liblegacy.la \
-					 libline.la \
-					 libvrunner.la \
-					 libtruglass.la \
-					 liboxygen.la \
-					 libpixmap.la \
-					 libzootreeves.la
+    liblegacy.la     \
+    libline.la       \
+    libvrunner.la    \
+    libtruglass.la   \
+    liboxygen.la     \
+    libpixmap.la     \
+    libzootreeves.la

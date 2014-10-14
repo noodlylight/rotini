@@ -1,4 +1,3 @@
-## Process this file with automake to produce Makefile.in
 desktopdir = $(datadir)/applications/
 desktop_DATA = rotini-theme-manager.desktop
 
